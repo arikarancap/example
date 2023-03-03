@@ -12,7 +12,6 @@ export function LoginShow({ navigation, route }) {
     const getData = async () => {
         console.log('its working...');
         // const numbers = [9, 36, 64, 144];
-
         // let squareRoots = numbers.map((number) => {
         //     console.log(number)
         // });

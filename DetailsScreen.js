@@ -1,21 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Button, View, ImageBackground, Text, StyleSheet, TouchableOpacity, Image, TextInput, StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { useLogin } from './LoginProvider';
-import axios from 'axios';
-import * as RNFS from 'react-native-fs';
 
-export function SignIn({ navigation }) {
-    const { setIsLoggedIn, SubMenu, setSubMenu } = useLogin();
-
+export function SignUp({ navigation }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const logindata = () => {
-        console.log(email);
-        console.log(password);
-        setEmail('');
-        setPassword('');
         if (!email) {
             alert('Please fill Email');
             return;
@@ -24,26 +15,15 @@ export function SignIn({ navigation }) {
             alert('Please fill Password');
             return;
         }
-        RNFS.readFileAssets('test.json')
-            .then(result => {
-                const data = result;
-                const obj = JSON.parse(data);
-                if (email == obj.user1.username && password == obj.user1.password) {
-                    setIsLoggedIn(true)
-                    console.log('Entering the user1');
-                }
-                else {
-                    console.log('Normal User');
-                }
-            })
-            .catch(err => {
-                console.log(err);
-            });
+        console.log(email);
+        console.log(password);
+        setPassword('');
+        setEmail('');
     }
     return (
         <ImageBackground source={require('./assets/images/backgound.jpg')} style={{ height: '100%' }} >
             <View style={styles.container}>
-                <Text style={{ textAlign: 'center', color: '#F5F5F5', letterSpacing: 3, marginBottom: 40, paddingRight: 30, fontSize: 35 }}>LOGIN</Text>
+                <Text style={{ textAlign: 'center', color: '#F5F5F5', letterSpacing: 3, marginBottom: 40, paddingRight: 30, fontSize: 35 }}>REGISTER</Text>
                 <View style={styles.headerWrapper}>
                     <TextInput
                         style={styles.header}
@@ -64,10 +44,10 @@ export function SignIn({ navigation }) {
                     />
                 </View>
                 <TouchableOpacity style={styles.loginBtn}>
-                    <Text style={styles.loginText} onPress={() => logindata()}>LOGIN</Text>
+                    <Text onPress={() => logindata()} style={styles.loginText}>REGISTER</Text>
                 </TouchableOpacity>
                 <TouchableOpacity>
-                    <Text onPress={() => navigation.navigate('SignUp')} style={styles.forgot_button}>SIGN UP</Text>
+                    <Text onPress={() => navigation.navigate('SignIn')} style={styles.forgot_button}>LOGIN</Text>
                 </TouchableOpacity>
             </View>
         </ImageBackground>
@@ -98,15 +78,13 @@ const styles = StyleSheet.create({
     header: {
         fontSize: 15,
         color: 'white',
-
     },
     forgot_button: {
         height: 30,
         marginBottom: 10,
         color: '#EEEEEE',
         marginTop: 40,
-        marginRight: 45,
-        fontWeight: 'bold'
+        marginRight: 45
     },
     loginBtn: {
         width: "25%",

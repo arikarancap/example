@@ -441,68 +441,63 @@ export class PairDeviceScreen extends Component {
         const activeTabStyle = { borderBottomWidth: 6, borderColor: '#009688' }
         return (
             <View style={{ flex: 1 }}>
-                <View style={styles.topBar}>
-                    <Text style={styles.heading}>Bluetooth Serial Example</Text>
-                    {Platform.OS === 'android'
-                        ? (
-                            <View style={styles.enableInfoWrapper}>
-                                <Text style={{ fontSize: 12, color: '#FFFFFF' }}>
-                                    {this.state.isEnabled ? 'disable' : 'enable'}
-                                </Text>
-                                <Switch
-                                    onValueChange={this.toggleBluetooth.bind(this)}
-                                    value={this.state.isEnabled} />
-                            </View>
-                        ) : null}
+                <View style={{ flex: 0.08, }}>
+                    <View style={[styles.topBar]}>
+                        <Text style={styles.heading}>Bluetooth</Text>
+                        {Platform.OS === 'android'
+                            ? (
+                                <View style={styles.enableInfoWrapper}>
+                                    <Text style={{ fontSize: 12, color: '#FFFFFF' }}>
+                                        {this.state.isEnabled ? 'disable' : 'enable'}
+                                    </Text>
+                                    <Switch
+                                        onValueChange={this.toggleBluetooth.bind(this)}
+                                        value={this.state.isEnabled} />
+                                </View>
+                            ) : null}
+                    </View>
                 </View>
 
-                {Platform.OS === 'android'
+                {/* {Platform.OS === 'android'
                     ? (
-                        <View style={[styles.topBar, { justifyContent: 'center', paddingHorizontal: 0 }]}>
-                            <TouchableOpacity style={[styles.tab, this.state.section === 0 && activeTabStyle]} onPress={() => this.setState({ section: 0 })}>
-                                <Text style={{ fontSize: 14, color: '#FFFFFF' }}>PAIRED DEVICES</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={[styles.tab, this.state.section === 1 && activeTabStyle]} onPress={() => this.setState({ section: 1 })}>
-                                <Text style={{ fontSize: 14, color: '#FFFFFF' }}>UNPAIRED DEVICES</Text>
-                            </TouchableOpacity>
+                        <View style={[styles.topBar, { justifyContent: 'center', paddingHorizontal: 0 }]}>                       
                             <TouchableOpacity style={[styles.tab, this.state.section === 2 && activeTabStyle]} onPress={() => this.setState({ section: 2 })}>
                                 <Text style={{ fontSize: 14, color: '#FFFFFF' }}>SEND_DATA</Text>
                             </TouchableOpacity>
                         </View>
-                    ) : null}
-                {this.state.section === 2
-                    ? (
-                        <View style={{ flex: 4, alignItems: 'center', justifyContent: 'center', backgroundColor: 'white' }}>
+                    ) : null} */}
 
-                            <Button
-                                textStyle={{ color: '#FFFFFF' }}
-                                style={styles.buttonRaised}
-                                title='Send Data'
-                                onPress={() => this.sharing()} />
-                            {/* <Filepicker /> */}
-                            {/*To show single file attribute*/}
-                            <TouchableOpacity
-                                activeOpacity={0.5}
-                                style={styles.buttonStyle}
-                                onPress={this.selectMultipleFile}>
-                                {/*Multiple files selection button*/}
-                                <Text style={{ marginRight: 10, fontSize: 19 }}>
-                                    Click here to pick multiple files
-                                </Text>
-                                <Image
-                                    source={{
-                                        uri: 'https://img.icons8.com/offices/40/000000/attach.png',
-                                    }}
-                                    style={styles.imageIconStyle}
-                                />
-                            </TouchableOpacity>
-                            <ScrollView>
-                                {/*Showing the data of selected Multiple files*/}
-                                {/* {this.state.multipleFile.map((item, key) => (
+                <View style={{ flex: 1, backgroundColor: 'white', alignItems: 'center' }}>
+                    <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: 250 }} >
+                        {/* <Filepicker /> */}
+                        {/*To show single file attribute*/}
+                        <TouchableOpacity
+                            activeOpacity={0.5}
+                            style={styles.buttonStyle}
+                            onPress={this.selectMultipleFile}>
+                            {/*Multiple files selection button*/}
+                            <Text style={{ marginRight: 10, fontSize: 19 }}>
+                                Click here to pick multiple files
+                            </Text>
+                            <Image
+                                source={{
+                                    uri: 'https://img.icons8.com/offices/40/000000/attach.png',
+                                }}
+                                style={styles.imageIconStyle}
+                            />
+                        </TouchableOpacity>
+                        <Button
+                            textStyle={{ color: '#FFFFFF' }}
+                            style={styles.buttonRaised}
+                            title='Send Data'
+                            onPress={() => this.sharing()} />
+                        <ScrollView>
+                            {/*Showing the data of selected Multiple files*/}
+                            {/* {this.state.multipleFile.map((item, key) => (
                                     <View key={key}>
                                         <Text style={styles.textStyle}>
                                             File Name: {item.name ? item.name : ''}
-                                            {'\n'}
+                                            {'\n'5
                                             Type: {item.type ? item.type : ''}
                                             {'\n'}
                                             File Size: {item.size ? item.size : ''}
@@ -513,58 +508,21 @@ export class PairDeviceScreen extends Component {
                                         <Text style={{ color: 'black' }} >{this.state.uriPath}</Text>
                                     </View>
                                 ))} */}
-                                {/* <Button title='file' onpress={this.file} /> */}
-                                {/* <Button
+                            {/* <Button title='file' onpress={this.file} /> */}
+                            {/* <Button
                                     textStyle={{ color: '#FFFFFF' }}
                                     style={styles.buttonRaised}
                                     title='MakeFile'
                                     onPress={() => this.file()} /> */}
-                                <Text>{this.state.sendBluetooth}</Text>
-                            </ScrollView>
-                        </View>
-                    ) : null
-                }
-                {
-                    this.state.discovering && this.state.section === 1
-                        ? (
-                            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                                <ActivityIndicator
-                                    style={{ marginBottom: 15 }}
-                                    size={60} />
-                                <Button
-                                    textStyle={{ color: '#FFFFFF' }}
-                                    style={styles.buttonRaised}
-                                    title='Cancel Discovery'
-                                    onPress={() => this.cancelDiscovery()} />
-                            </View>
-                        ) : (
-                            <DeviceList
-                                showConnectedIcon={this.state.section === 0}
-                                connectedId={this.state.devices && this.state.devices.id}
-                                devices={this.state.section === 0 ? this.state.devices : this.state.unpairedDevices}
-                                onDevicePress={(device) => this.onDevicePress(device)} />
-                        )
-                }
+                            {/* <Text>{this.state.sendBluetooth}</Text> */}
+                        </ScrollView>
+                    </View>
 
 
-                <View style={{ alignSelf: 'flex-end', height: 52 }}>
-                    <ScrollView
-                        horizontal
-                        contentContainerStyle={styles.fixedFooter}>
-                        {Platform.OS === 'android' && this.state.section === 1
-                            ? (
-                                <Button
-                                    title={this.state.discovering ? '... Discovering' : 'Discover devices'}
-                                    onPress={this.discoverUnpaired.bind(this)} />
-                            ) : null}
-                        {Platform.OS === 'android' && !this.state.isEnabled
-                            ? (
-                                <Button
-                                    title='Request enable'
-                                    onPress={() => this.requestEnable()} />
-                            ) : null}
-                    </ScrollView>
+
+
                 </View>
+
             </View >
         )
     }
@@ -649,8 +607,11 @@ const styles = StyleSheet.create({
         fontSize: 14
     },
     buttonRaised: {
+        width: 200,
+        height: 40,
+        marginTop: 50,
         backgroundColor: '#0A2647',
-        borderRadius: 2,
+        borderRadius: 40,
         elevation: 2
     },
     // filePicker styles
@@ -672,10 +633,13 @@ const styles = StyleSheet.create({
         color: 'black',
     },
     buttonStyle: {
+        justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'row',
         backgroundColor: '#DDDDDD',
-        padding: 5,
+        padding: 10,
+        borderRadius: 10,
+        width: 350
     },
     imageIconStyle: {
         height: 20,

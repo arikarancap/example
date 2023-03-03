@@ -148,7 +148,8 @@ export function Slot_Channel({ navigation, route }) {
 
         })
         return (
-            <View style={{ flex: 1, backgroundColor: '#0A2647' }}>
+            <View style={{ flex: 1, backgroundColor: 'white' }}>
+                <Text style={{color: 'black' ,textAlign: 'center',fontSize: 25,fontWeight: 'bold',backgroundColor: '#00ADB5',padding: 10}}>Details</Text>
                 <ScrollView>
                     {values.map((object) => {
                         return (
@@ -190,19 +191,19 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        backgroundColor: '#FFFFFF',
+        // backgroundColor: '#FFFFFF',
         alignItems: 'center',
         justifyContent: 'center',
-        borderWidth: 1,
-        borderColor: "#0A2647",
-        backgroundColor: '#0A2647'
+        // borderWidth: 1,
+        // borderColor: "#0A2647",
+        // backgroundColor: 'white'
     },
     subContainer: {
-        width: 350,
+        width: 390,
         height: 50,
-        borderWidth: 1,
+        // borderWidth: 1,
         borderColor: "black",
-        margin: 2,
+        // margin: 2,
         backgroundColor: '#BADAE9',
         color: 'white',
     },
@@ -211,7 +212,7 @@ const styles = StyleSheet.create({
         color: '#0A2647',
         flex: 1,
         // color: 'white',
-        // paddingTop: 11,
+        paddingTop: 11,
         justifyContent: 'center',
         fontWeight: 'bold'
     },

@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Image, TouchableOpacity, StyleSheet, Pressable } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet, Pressable, useState, Dimensions } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 // import 'react-native-gesture-handler';
 // import CustomDrawer from "./CustomDrawer";
@@ -11,52 +11,24 @@ import { PairDeviceScreen } from './Connection';
 import { SignIn, SignUp } from './Login';
 import { LoginShow } from './showData';
 import { useLogin } from './LoginProvider';
-
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { loadPartialConfigAsync } from "@babel/core";
 // import { SlotHandler,SlotHandlerTwo, SlotHandlerThree, SlotHandlerFour } from './Channel';
 const Drawer = createDrawerNavigator();
 
 
 const CustomDrawerContent = ({ navigation }) => {
-    const { setIsLoggedIn } = useLogin();
+    const { setIsLoggedIn, SubMenu, setSubMenu } = useLogin();
 
     return (
         <DrawerContentScrollView
             scrollEnabled={true}
             contentContainerStyle={{ flex: 1 }}
         >
-            <View
-                style={{
-                    flex: 1,
-                    paddingHorizontal: 0,
-                }}
-            >
-                {/* #####################close####################################### */}
-                <View
-                    style={{
-                        alignItems: 'flex-start',
-                        justifyContent: 'center',
-                    }}
-                >
-                    <TouchableOpacity
-                        style={{
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                        }}
-                        onPress={() => navigation.closeDrawer()}
-                    >
-                        <Image
-                            source={require('./assets/images/exitimage.png')}
-                            style={styles.image}
-                        >
-
-                        </Image>
-                    </TouchableOpacity>
-
-                </View>
-                {/* ########################profile################################*/}
+            <View style={{ flex: 0.1, backgroundColor: 'white' }} >
                 <TouchableOpacity
                     style={styles.profile}
+
                 >
 
                     <View style={{
@@ -73,32 +45,52 @@ const CustomDrawerContent = ({ navigation }) => {
                     >
                     </Image>
                 </TouchableOpacity>
+            </View>
+            <View
+                style={{
+                    flex: 0.9,
+                    paddingHorizontal: 0,
+                    // backgroundColor: 'green'
+                }}
+            >
+                {/* #####################close####################################### */}
+
+                {/* ########################profile################################*/}
+
                 {/* ####################Drawer Items################################### */}
                 <View>
                     <DrawerItem
                         label="Home"
-                        style={styles.drawerItem}
+                        style={[styles.drawerItem, { marginTop: 30 }]}
+                        icon={({ color, size, focused }) => (
+                            <FontAwesome5 name={'house-user'} size={18} color={'black'} />
+                        )}
                         labelStyle={styles.labelStyle}
                         onPress={() => {
                             navigation.navigate("Home");
                         }}
+
                     />
                     <DrawerItem
                         label="PreConfiguration"
+                        icon={({ color, size, focused }) => (
+                            <FontAwesome5 name={'wrench'} size={18} color={'black'} />
+                        )}
                         style={styles.drawerItem}
                         labelStyle={styles.labelStyle}
                         onPress={() => {
                             navigation.navigate("PreConfiguration");
                         }}
+
                     />
                     {/* <DrawerItem
-                       label="PairDeviceScreen"
-                       style={styles.drawerItem}
-                       labelStyle={styles.labelStyle}
-                       onPress={() => {
-                           navigation.navigate("PairDeviceScreen");
-                       }}
-                   /> */}
+                        label="PairDeviceScreen"
+                        style={styles.drawerItem}
+                        labelStyle={styles.labelStyle}
+                        onPress={() => {
+                            navigation.navigate("PairDeviceScreen");
+                        }}
+                    /> */}
 
                     {/* <DrawerItem
                         label="SignIn"
@@ -108,25 +100,68 @@ const CustomDrawerContent = ({ navigation }) => {
                             navigation.navigate("SignIn");
                         }}
                     /> */}
-                    <DrawerItem
-                        label="LoginShow"
-                        style={styles.drawerItem}
-                        labelStyle={styles.labelStyle}
-                        onPress={() => {
-                            navigation.navigate("LoginShow");
-                        }}
-                    />
+
 
                     <DrawerItem
                         label="Slot 1"
+                        // focused={focus ? true : false}
+                        icon={({ color, size, focused }) => (
+                            <FontAwesome5 name={'file'} size={18} color={'black'} />
+                        )}
                         style={styles.drawerItem}
                         labelStyle={styles.labelStyle}
                         onPress={() => {
                             navigation.navigate("Slot1");
+                            // setSubMenu(true)
+
                         }}
+
                     />
+                    {/* {SubMenu ? (
+                        <View>
+                            <DrawerItem
+                                label="Channel1"
+                                icon={({ color, size, focused }) => (
+                                    <FontAwesome5 name={'wrench'} size={18} color={'black'} />
+                                )}
+                                style={[styles.drawerItem, { marginLeft: 70 }]}
+                                labelStyle={styles.labelStyle}
+                                onPress={() => {
+                                    navigation.navigate("LoginShow");
+                                }}
+                            />
+                            <DrawerItem
+                                label="Channel1"
+                                icon={({ color, size, focused }) => (
+                                    <FontAwesome5 name={'wrench'} size={18} color={'black'} />
+                                )}
+                                style={[styles.drawerItem, { marginLeft: 70 }]}
+                                labelStyle={styles.labelStyle}
+                                onPress={() => {
+                                    navigation.navigate("LoginShow");
+                                }}
+
+                            />
+                            <DrawerItem
+                                label="Channel1"
+                                icon={({ color, size, focused }) => (
+                                    <FontAwesome5 name={'wrench'} size={18} color={'black'} />
+                                )}
+                                style={[styles.drawerItem, { marginLeft: 70 }]}
+                                labelStyle={styles.labelStyle}
+                                onPress={() => {
+                                    navigation.navigate("LoginShow");
+                                }}
+
+                            />
+                        </View>
+                    )
+                        : null} */}
                     <DrawerItem
                         label="Slot 2"
+                        icon={({ color, size, focused }) => (
+                            <FontAwesome5 name={'file'} size={18} color={'black'} />
+                        )}
                         style={styles.drawerItem}
                         labelStyle={styles.labelStyle}
                         onPress={() => {
@@ -135,6 +170,9 @@ const CustomDrawerContent = ({ navigation }) => {
                     />
                     <DrawerItem
                         label="Slot 3"
+                        icon={({ color, size, focused }) => (
+                            <FontAwesome5 name={'file'} size={18} color={'black'} />
+                        )}
                         style={styles.drawerItem}
                         labelStyle={styles.labelStyle}
                         onPress={() => {
@@ -143,30 +181,41 @@ const CustomDrawerContent = ({ navigation }) => {
                     />
                     <DrawerItem
                         label="Slot 4"
+                        icon={({ color, size, focused }) => (
+                            <FontAwesome5 name={'file'} size={18} color={'black'} />
+                        )}
                         style={styles.drawerItem}
                         labelStyle={styles.labelStyle}
                         onPress={() => {
                             navigation.navigate("Slot4");
                         }}
                     />
-                    <DrawerItem
-                        label="Logout"
-                        style={styles.drawerItem}
-                        labelStyle={[styles.labelStyle, { marginTop: 5, fontSize: 20 }]}
-                        onPress={() => {
-                            setIsLoggedIn(false);
-                        }}
-                    />
-
-
                 </View>
 
+
+            </View>
+            <View style={{
+                flex: 0.1,
+                // backgroundColor: 'orange', 
+            }}>
+                <DrawerItem
+                    label="Logout"
+                    style={styles.drawerItem}
+                    icon={({ color, size, focused }) => (
+                        <FontAwesome5 name={'arrow-circle-left'} size={18} color={'black'} />
+                    )}
+                    labelStyle={[styles.labelStyle, { marginTop: 0, fontSize: 20 }]}
+                    onPress={() => {
+                        setIsLoggedIn(false);
+                    }}
+                />
             </View>
         </DrawerContentScrollView>
     )
 }
 
 export function MainDrawerScreen() {
+
     return (
         <NavigationContainer>
             <Drawer.Navigator
@@ -182,6 +231,7 @@ export function MainDrawerScreen() {
                         />
                     )
                 }}
+                style={{ width: 200 }}
                 screenOptions={{
                     headerShown: true,
                     swipeEnabled: false,
@@ -194,17 +244,21 @@ export function MainDrawerScreen() {
                     headerTitleStyle: {
                         fontSize: 21, fontWeight: 'bold',
                     }
+                    ,
+                    drawerStyle: {
+                        width: 280,
+                    },
                 }}
 
 
             >
-                <Drawer.Screen
+                {/* <Drawer.Screen
                     name="LoginShow"
                     component={LoginShow}
                     options={{
                         title: 'LoginShow',
                     }}
-                />
+                /> */}
 
                 {/* <Drawer.Screen
                     name="SignIn"
@@ -220,18 +274,19 @@ export function MainDrawerScreen() {
                         title: 'SignUp',
                     }}
                 /> */}
-                <Drawer.Screen
-                    name="Slot1"
-                    component={Slot1}
-                    options={{
-                        title: 'Slot 1',
-                    }}
-                />
+
                 <Drawer.Screen
                     name="PairDeviceScreen"
                     component={PairDeviceScreen}
                     options={{
                         title: 'PairDeviceScreen',
+                    }}
+                />
+                <Drawer.Screen
+                    name="Slot1"
+                    component={Slot1}
+                    options={{
+                        title: 'Slot 1',
                     }}
                 />
                 <Drawer.Screen
@@ -274,6 +329,7 @@ export function MainDrawerScreen() {
                     component={Slot_Channel}
                     options={{
                         title: 'Channel Configuration',
+                        headerShown: false
                     }}
                 />
                 {/* <Drawer.Screen
