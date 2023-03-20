@@ -20,8 +20,6 @@ import { Slot1_Channel1 } from "./Channel";
 import BluetoothStateManager from "react-native-bluetooth-state-manager";
 import BluetoothSerial from 'react-native-bluetooth-serial';
 import { PairDeviceScreen } from './Connection';
-
-
 export function Slot1({ navigation }) {
     return (
         <View style={styles.body}>
@@ -33,7 +31,7 @@ export function Slot1({ navigation }) {
             <TouchableOpacity
                 style={styles.button1}
                 onPress={() =>
-                    navigation.navigate("Slot_Channel", {
+                    navigation.navigate("Extraction", {
                         msg1: "Slot1",
                         msg2: "channel_1",
                         msg3: "Slot_1_Channel_1",
@@ -346,10 +344,13 @@ export function Home({ navigation }) {
         }
     };
 
-   
+
     return (
-        <View style={{ flex: 4, justifyContent: 'center' }} >
-            {/* <Text style={styles.text}>Welcome Bluetooth App</Text>
+        <View style={{
+            flex: 1, justifyContent: 'center', backgroundColor: '#3C6255',
+            alignItems: 'center',
+        }} >
+            <Text style={styles.text}>Welcome Bluetooth App</Text>
             <View style={{ flex: .4, justifyContent: 'center' }} >
                 <TouchableOpacity
                     onPress={toggleSwitch}
@@ -367,9 +368,9 @@ export function Home({ navigation }) {
                         />
                     )}
                 </TouchableOpacity>
-            </View> */}
-            
-           <PairDeviceScreen /> 
+            </View>
+
+            {/* <PairDeviceScreen /> */}
 
         </View>
     );
@@ -426,7 +427,7 @@ const styles = StyleSheet.create({
         fontSize: 30,
         textAlign: "center",
         fontWeight: "bold",
-        marginTop: 200,
+        marginTop: 150,
     },
     input: {
         height: 40,

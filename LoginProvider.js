@@ -11,7 +11,7 @@ export const LoginProvider = ({ children }) => {
     </LoginContext.Provider>
 }
 export const sub = ({ children }) => {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(true);
     return
 }
 export const useLogin = () => useContext(LoginContext)

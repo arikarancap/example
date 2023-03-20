@@ -149,7 +149,7 @@ export function Slot_Channel({ navigation, route }) {
         })
         return (
             <View style={{ flex: 1, backgroundColor: 'white' }}>
-                <Text style={{color: 'black' ,textAlign: 'center',fontSize: 25,fontWeight: 'bold',backgroundColor: '#00ADB5',padding: 10}}>Details</Text>
+                <Text style={{ color: 'black', textAlign: 'center', fontSize: 25, fontWeight: 'bold', backgroundColor: '#00ADB5', padding: 8, letterSpacing: 2 }}>Details</Text>
                 <ScrollView>
                     {values.map((object) => {
                         return (
@@ -172,7 +172,7 @@ export function Slot_Channel({ navigation, route }) {
     return (
         <View style={{ flex: 1, backgroundColor: '#0A2647', alignItems: 'center' }}>
             <Marking />
-            <Text style={{ width: 400, height: 40, backgroundColor: '#00ADB5', textAlign: 'center', textAlignVertical: 'center', fontWeight: 'bold', fontSize: 20, color: 'white' }} onPress={() => navigation.navigate(msg1)} >Goback</Text>
+            <Text style={{ width: 400, height: 40, backgroundColor: '#00ADB5', textAlign: 'center', textAlignVertical: 'center', fontWeight: 'bold', fontSize: 20, color: 'white', letterSpacing: 10 }} onPress={() => navigation.navigate(msg1)} >Goback</Text>
 
         </View>
     );
@@ -190,7 +190,7 @@ const styles = StyleSheet.create({
         margin: 10,
     },
     container: {
-        flex: 1,
+        // flex: 1,
         // backgroundColor: '#FFFFFF',
         alignItems: 'center',
         justifyContent: 'center',

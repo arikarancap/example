@@ -1,8 +1,7 @@
 import React from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet, Pressable, useState, Dimensions } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-// import 'react-native-gesture-handler';
-// import CustomDrawer from "./CustomDrawer";
+import { Extraction } from './newScreen';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import { Slot1, Slot2, Slot3, Slot4, Home } from "./Slots";
 import { Slot_Channel } from './Channel';
@@ -11,9 +10,11 @@ import { PairDeviceScreen } from './Connection';
 import { SignIn, SignUp } from './Login';
 import { LoginShow } from './showData';
 import { useLogin } from './LoginProvider';
+import { Details } from './Details';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+
 import { loadPartialConfigAsync } from "@babel/core";
-// import { SlotHandler,SlotHandlerTwo, SlotHandlerThree, SlotHandlerFour } from './Channel';
 const Drawer = createDrawerNavigator();
 
 
@@ -53,11 +54,7 @@ const CustomDrawerContent = ({ navigation }) => {
                     // backgroundColor: 'green'
                 }}
             >
-                {/* #####################close####################################### */}
 
-                {/* ########################profile################################*/}
-
-                {/* ####################Drawer Items################################### */}
                 <View>
                     <DrawerItem
                         label="Home"
@@ -83,14 +80,17 @@ const CustomDrawerContent = ({ navigation }) => {
                         }}
 
                     />
-                    {/* <DrawerItem
-                        label="PairDeviceScreen"
+                    <DrawerItem
+                        label="Extraction"
                         style={styles.drawerItem}
+                        icon={({ color, size, focused }) => (
+                            <FontAwesome5 name={'file'} size={18} color={'black'} />
+                        )}
                         labelStyle={styles.labelStyle}
                         onPress={() => {
-                            navigation.navigate("PairDeviceScreen");
+                            navigation.navigate("Extraction");
                         }}
-                    /> */}
+                    />
 
                     {/* <DrawerItem
                         label="SignIn"
@@ -100,9 +100,7 @@ const CustomDrawerContent = ({ navigation }) => {
                             navigation.navigate("SignIn");
                         }}
                     /> */}
-
-
-                    <DrawerItem
+                    {/* <DrawerItem
                         label="Slot 1"
                         // focused={focus ? true : false}
                         icon={({ color, size, focused }) => (
@@ -116,7 +114,7 @@ const CustomDrawerContent = ({ navigation }) => {
 
                         }}
 
-                    />
+                    /> */}
                     {/* {SubMenu ? (
                         <View>
                             <DrawerItem
@@ -157,7 +155,7 @@ const CustomDrawerContent = ({ navigation }) => {
                         </View>
                     )
                         : null} */}
-                    <DrawerItem
+                    {/* <DrawerItem
                         label="Slot 2"
                         icon={({ color, size, focused }) => (
                             <FontAwesome5 name={'file'} size={18} color={'black'} />
@@ -189,7 +187,7 @@ const CustomDrawerContent = ({ navigation }) => {
                         onPress={() => {
                             navigation.navigate("Slot4");
                         }}
-                    />
+                    /> */}
                 </View>
 
 
@@ -198,7 +196,7 @@ const CustomDrawerContent = ({ navigation }) => {
                 flex: 0.1,
                 // backgroundColor: 'orange', 
             }}>
-                <DrawerItem
+                {/* <DrawerItem
                     label="Logout"
                     style={styles.drawerItem}
                     icon={({ color, size, focused }) => (
@@ -208,13 +206,14 @@ const CustomDrawerContent = ({ navigation }) => {
                     onPress={() => {
                         setIsLoggedIn(false);
                     }}
-                />
+                /> */}
             </View>
         </DrawerContentScrollView>
     )
 }
 
 export function MainDrawerScreen() {
+    const { setIsLoggedIn, SubMenu, setSubMenu } = useLogin();
 
     return (
         <NavigationContainer>
@@ -237,43 +236,41 @@ export function MainDrawerScreen() {
                     swipeEnabled: false,
                     gestureEnabled: false,
                     headerTitleAlign: 'center',
+
                     headerStyle: {
                         backgroundColor: 'white',
                     },
                     headerTintColor: '#0A2647',
                     headerTitleStyle: {
-                        fontSize: 21, fontWeight: 'bold',
+                        fontSize: 21,
+                        fontWeight: 'bold',
                     }
                     ,
                     drawerStyle: {
                         width: 280,
                     },
+
                 }}
 
 
             >
-                {/* <Drawer.Screen
-                    name="LoginShow"
-                    component={LoginShow}
+                <Drawer.Screen
+                    name="Extraction"
+                    component={Extraction}
                     options={{
-                        title: 'LoginShow',
-                    }}
-                /> */}
+                        title: 'Extraction',
+                        headerShown: false
 
-                {/* <Drawer.Screen
-                    name="SignIn"
-                    component={SignIn}
-                    options={{
-                        title: 'SignIn',
                     }}
-                /> */}
-                {/* <Drawer.Screen
-                    name="SignUp"
-                    component={SignUp}
+                />
+                <Drawer.Screen
+                    name="Details"
+                    component={Details}
                     options={{
-                        title: 'SignUp',
+                        title: 'Details',
+                        headerShown: false
                     }}
-                /> */}
+                />
 
                 <Drawer.Screen
                     name="PairDeviceScreen"
@@ -287,6 +284,7 @@ export function MainDrawerScreen() {
                     component={Slot1}
                     options={{
                         title: 'Slot 1',
+                        headerShown: false
                     }}
                 />
                 <Drawer.Screen
@@ -294,6 +292,7 @@ export function MainDrawerScreen() {
                     component={Slot2}
                     options={{
                         title: 'Slot 2',
+                        headerShown: false
                     }}
                 />
                 <Drawer.Screen
@@ -301,6 +300,7 @@ export function MainDrawerScreen() {
                     component={Slot3}
                     options={{
                         title: 'Slot 3',
+                        headerShown: false
                     }}
                 />
                 <Drawer.Screen
@@ -308,6 +308,7 @@ export function MainDrawerScreen() {
                     component={Slot4}
                     options={{
                         title: 'Slot 4',
+                        headerShown: false
                     }}
                 />
                 <Drawer.Screen
@@ -315,7 +316,14 @@ export function MainDrawerScreen() {
                     component={Home}
                     options={{
                         title: 'Bluetooth App',
+                        // headerTitle: () => <Text style={{ color: 'black' }}>Hello</Text>,
+                        headerRight: () =>
+                            <View style={{ marginRight: 10 }} >
+                                <AntDesign name={'logout'} size={20} color={'black'} onPress={() => { setIsLoggedIn(false); }} />
+                            </View>
+                        ,
                     }}
+
                 />
                 <Drawer.Screen
                     name="PreConfiguration"
@@ -332,13 +340,7 @@ export function MainDrawerScreen() {
                         headerShown: false
                     }}
                 />
-                {/* <Drawer.Screen
-                   name="SlotHandlerTwo"
-                   component={SlotHandlerTwo}
-                   options={{
-                       title: 'Bluetooth App',
-                   }}
-               /> */}
+
             </Drawer.Navigator>
         </NavigationContainer>
     )

@@ -8,8 +8,6 @@ import {
     TouchableOpacity,
     TouchableHighlight,
     View,
-    Modal,
-    ActivityIndicator,
     Image,
 } from 'react-native';
 import Share from 'react-native-share';
@@ -19,7 +17,6 @@ import Toast from '@remobile/react-native-toast'
 import BluetoothSerial from 'react-native-bluetooth-serial'
 import RNFetchBlob from 'react-native-fetch-blob';
 import Bluetooth from 'react-native-bluetooth';
-
 
 import { Buffer } from 'buffer'
 global.Buffer = Buffer
@@ -43,9 +40,7 @@ const DeviceList = ({ devices, connectedId, showConnectedIcon, onDevicePress }) 
                         underlayColor='#DDDDDD'
                         key={`${device.id}_${i}`}
                         style={styles.listItem} onPress={() => onDevicePress(device)}>
-
                         <View style={{ flexDirection: 'row' }}>
-
                             {showConnectedIcon
                                 ? (
                                     <View style={{ width: 48, height: 48, opacity: 0.4 }}>
@@ -148,125 +143,8 @@ export class PairDeviceScreen extends Component {
         }
     }
 
-    /**
-     * [android]
-     * Discover unpaired devices, works only in android
-     */
-    discoverUnpaired() {
-        if (this.state.discovering) {
-            return false
-        } else {
-            this.setState({ discovering: true })
-            BluetoothSerial.discoverUnpairedDevices()
-                .then((unpairedDevices) => {
-                    this.setState({ unpairedDevices, discovering: false })
-                })
-                .catch((err) => Toast.showShortBottom(err.message))
-        }
-    }
 
-    /**
-     * [android]
-     * Discover unpaired devices, works only in android
-     */
-    cancelDiscovery() {
-        if (this.state.discovering) {
-            BluetoothSerial.cancelDiscovery()
-                .then(() => {
-                    this.setState({ discovering: false })
-                })
-                .catch((err) => Toast.showShortBottom(err.message))
-        }
-    }
 
-    /**
-     * [android]
-     * Pair device
-     */
-    pairDevice(device) {
-        BluetoothSerial.pairDevice(device.id)
-            .then((paired) => {
-                if (paired) {
-                    Toast.showShortBottom(`Device ${device.name} paired successfully`)
-                    const devices = this.state.devices
-                    devices.push(device)
-                    this.setState({ devices, unpairedDevices: this.state.unpairedDevices.filter((d) => d.id !== device.id) })
-
-                } else {
-                    Toast.showShortBottom(`Device ${device.name} pairing failed`)
-                }
-            })
-            .catch((err) => Toast.showShortBottom(err.message))
-        this.setState({ connecting: true })
-        // BluetoothSerial.connect(device.id)
-        //   .then((res) => {
-        //     Toast.showShortBottom(`Connected to device ${device.name}`)
-        //     this.setState({ device, connected: true, connecting: false })
-        //   })
-        //   .catch((err) => Toast.showShortBottom(err.message))
-
-    }
-
-    /**
-     * Connect to bluetooth device by id
-     * @param  {Object} device
-     */
-    deviceConnected() {
-        // Subscribe to data receiving as soon as the delimiter is read
-        this.bluetoothSerial.subscribe('\n').subscribe(success => {
-            this.handleData(success);
-            this.showToast("Connected Successfullly");
-        }, error => {
-            this.showError(error);
-        });
-    }
-    connect(device) {
-        // this.setState({ connecting: true })
-        // BluetoothSerial.connect(device.id)
-        //   .then((res) => {
-        //     Toast.showShortBottom(`Connected to device ${device.name}`)
-        //     this.setState({ device, connected: true, connecting: false })
-        //   })
-        //   .catch((err) => Toast.showShortBottom(err.message))
-
-        // Attempt to connect device with specified address, call app.deviceConnected if success
-
-        BluetoothSerial.connect(device.address)
-            .then(() => {
-                console.log('Connection successful');
-                Toast.show('Connected to device', Toast.SHORT);
-                const message = " hello World....";
-
-            })
-            .catch((error) => {
-                console.log('Connection error', error.message);
-            })
-        // BluetoothSerial.connect(device.id)
-        //   .then(() => {
-        //     // Connection successful, start reading
-        //     Toast.showShortBottom(`Connected to device ${device.name}`)
-
-        //     console.log('Connection successful, start reading')
-        //     BluetoothSerial.read((data, error) => {
-        //       if (error) {
-        //         // handle the error
-        //         console.log('Error: ', error)
-        //       } else {
-        //         // handle the data
-        //         console.log(data)
-        //       }
-        //     });
-        //   })
-        //   .catch((error) => {
-        //     // handle the error
-        //     console.log('Catch Error: ', error)
-        //   });
-
-    }
-
-    /**
-     * Disconnect from bluetooth device
-     */
     disconnect() {
         BluetoothSerial.disconnect()
             .then(() => this.setState({ connected: false }))
@@ -285,48 +163,9 @@ export class PairDeviceScreen extends Component {
         }
     }
 
-    /**
-     * Write message to device
-     * @param  {String} message
-     */
-    write(message) {
-        if (!this.state.connected) {
-            Toast.showShortBottom('You must connect to device first')
-        }
 
-        BluetoothSerial.write(message)
-            .then((res) => {
-                Toast.showShortBottom('Successfuly wrote to device')
-                this.setState({ connected: true })
-            })
-            .catch((err) => Toast.showShortBottom(err.message))
-    }
 
-    onDevicePress(device) {
-        if (this.state.section === 0) {
-            this.connect(device)
-            console.log(device)
-        } else {
-            this.pairDevice(device)
-        }
-    }
 
-    writePackets(message, packetSize = 64) {
-        const toWrite = iconv.encode(message, 'cp852')
-        const writePromises = []
-        const packetCount = Math.ceil(toWrite.length / packetSize)
-
-        for (var i = 0; i < packetCount; i++) {
-            const packet = Buffer.alloc(packetSize);
-            packet.fill(' ')
-            toWrite.copy(packet, 0, i * packetSize, (i + 1) * packetSize)
-            writePromises.push(BluetoothSerial.write(packet))
-        }
-
-        Promise.all(writePromises)
-            .then((result) => {
-            })
-    }
     info = () => {
         const uniqueId = DeviceInfo.getPhoneNumber();
         console.log(uniqueId)
@@ -336,6 +175,7 @@ export class PairDeviceScreen extends Component {
         try {
             const results = await DocumentPicker.pickMultiple({
                 type: [DocumentPicker.types.plainText],
+                allowMultiSelection: true,
                 //There can me more options as well find above
             });
             console.log(results)
@@ -362,7 +202,8 @@ export class PairDeviceScreen extends Component {
             }
         }
     };
-    filePath = RNFS.DocumentDirectoryPath + "/joke.txt"; //absolute path of our file
+    filePath = RNFS.DocumentDirectoryPath + "/example.txt"; //absolute path of our file
+    content = "Show up, show up, show up, and after a while the muse shows up, too."
 
     makeFile = async (filePath, content) => {
         try {
@@ -383,24 +224,7 @@ export class PairDeviceScreen extends Component {
         const reader = await RNFS.readDir(path);
         setFiles(reader);
     };
-    // sharing = async () => {
 
-
-    //     shareOptions = {
-    //         // message: "0x1000:0x97:0xA7:0xB7:0x45:0x2000:0xABCD:0x9100:0x04:100.0:100:0x64:100:1.35:100:25:0.0:200:50:5.68:300:75:0.0:500:50:0x9200:0x08:100.0:100:0x64:100:1.35:100:25:0.0:200:50:5.68:300:75:0.0:500:50:1.35:100:25:0.0:200:50:5.68:300:75:0.0:500:50:0x9300:0x0C:100.0:100:0x64:100:1.35:100:25:0.0:200:50:5.68:300:75:0.0:500:50:1.35:100:25:0.0:200:50:5.68:300:75:0.0:500:50:1.35:100:25:0.0:200:50:5.68:300:75:0.0:500:50",
-    //         // title: `Share ${fileName}`,
-    //         // url: `file://${JSON.stringify(this.state.sendBluetooth)}`,
-    //         // type: 'text/txt',
-    //         message: this.state.sendBluetooth,
-    //         type: 'text/plain',
-    //     }
-    //     try {
-    //         const ShareResponse = await Share.open(shareOptions);
-    //     }
-    //     catch (error) {
-    //         console.log('Error is : ' + error)
-    //     }
-    // }
     sharing = async () => {
         console.log('words');
         RNFS.readFileAssets('hello.txt').then(result => {
@@ -410,8 +234,7 @@ export class PairDeviceScreen extends Component {
             this.setState({ sendBluetooth: words })
 
         })
-        const filePath = 'android/app/src/main/assets/hello.txt';
-        const mimeType = 'text/plain';
+
 
         shareOptions = {
             // message: "0x1000:0x97:0xA7:0xB7:0x45:0x2000:0xABCD:0x9100:0x04:100.0:100:0x64:100:1.35:100:25:0.0:200:50:5.68:300:75:0.0:500:50:0x9200:0x08:100.0:100:0x64:100:1.35:100:25:0.0:200:50:5.68:300:75:0.0:500:50:1.35:100:25:0.0:200:50:5.68:300:75:0.0:500:50:0x9300:0x0C:100.0:100:0x64:100:1.35:100:25:0.0:200:50:5.68:300:75:0.0:500:50:1.35:100:25:0.0:200:50:5.68:300:75:0.0:500:50:1.35:100:25:0.0:200:50:5.68:300:75:0.0:500:50",
@@ -429,12 +252,9 @@ export class PairDeviceScreen extends Component {
         }
     }
     file = () => {
-
-        this.makeFile(this.filePath, this.state.sendBluetooth);
+        // this.makeFile(this.filePath, this.content);
         this.readFile(this.filePath);
         // getFileContent(RNFS.DocumentDirectoryPath);
-
-
     }
 
     render() {
@@ -490,7 +310,7 @@ export class PairDeviceScreen extends Component {
                             textStyle={{ color: '#FFFFFF' }}
                             style={styles.buttonRaised}
                             title='Send Data'
-                            onPress={() => this.sharing()} />
+                            onPress={() => this.file()} />
                         <ScrollView>
                             {/*Showing the data of selected Multiple files*/}
                             {/* {this.state.multipleFile.map((item, key) => (

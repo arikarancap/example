@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         flex: 1,
-        backgroundColor: '#0A2647',
+        backgroundColor: '#3C6255',
     },
     button1: {
         backgroundColor: 'white',

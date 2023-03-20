@@ -6,7 +6,7 @@ import { MainNavigator } from './MainNavigator';
 function App() {
   return (
     <LoginProvider>
-        <MainNavigator />
+      <MainNavigator />
     </LoginProvider>
   )
 }

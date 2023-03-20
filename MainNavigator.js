@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { View, Text } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
-import {SignUp} from './DetailsScreen';
+import { SignUp } from './DetailsScreen';
 import { SignIn } from './Login';
 import { LoginShow } from './showData';
 import { useLogin } from './LoginProvider';
@@ -15,7 +15,6 @@ const StackNavigator = () => {
             opacity: current.progress,
         },
     });
-
     return (
         <NavigationContainer >
             <Stack.Navigator
@@ -29,8 +28,6 @@ const StackNavigator = () => {
                 <Stack.Screen component={SignUp} name='SignUp'
                     options={{
                         title: 'Goback Login',
-
-
                     }}
 
                 />
